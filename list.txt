@@ -1,0 +1,7 @@
+.forceignore
+Jenkinsfile
+force-app/main/default/classes/vidhiTestClass.cls
+force-app/main/default/classes/vidhiTestClass.cls-meta.xml
+force-app/main/default/lwc/jsconfig.json
+manifest/package.xml
+sfdx-project.json
