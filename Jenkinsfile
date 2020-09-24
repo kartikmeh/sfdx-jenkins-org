@@ -20,18 +20,16 @@ stages{
 	
 
 		steps{
-				bat 
-				'''
-				git diff-tree --no-commit-id --name-only -r head^ head > list.txt
-				python copyDeltaFiles.py
-				groovy PackageXMLGenerator.groovy delta/force-app/main/default delta/force-app/main/default/package.xml
-				'''
+				bat 'powershell -command "git diff-tree --no-commit-id --name-only -r head^ head > list.txt"'
+				bat 'python copyDeltaFiles.py'
+				bat 'groovy PackageXMLGenerator.groovy delta/force-app/main/default delta/force-app/main/default/package.xml'
 
 		}
 	}
 	
 	
 	stage('Authorize to Salesforce') {
+	steps{
 	withEnv(["HOME=${env.WORKSPACE}"]) {	
 	
 	    withCredentials([file(credentialsId: SERVER_KEY_CREDENTIALS_ID, variable: 'server_key_file')]) {
@@ -46,11 +44,14 @@ stages{
 		}
 		}
 		}
+		}
 		stage('Deploy and Run Tests') {
+		steps{
 			rc = command "${toolbelt}/sfdx force:mdapi:deploy -d delta/force-app/main/default -w 30"
 		    if (rc != 0) {
 			error 'Salesforce deploy and test run failed.'
 		    }
+		}
 		}
 }
 }
