@@ -1,5 +1,7 @@
-file=open("list.txt", "r")
+import io
+file=io.open("list.txt", "r", encoding = "utf-16")
 list = file.readlines()
+print(list)
 listUpdated=[]
 listMkdir=[]
 for row in list:
@@ -21,5 +23,6 @@ for row in listMkdir:
 for row in listUpdated:
 	row=row.rstrip()
 	if("force-app" in row):
-		command="echo y | copy "+dir_path+"\\"+row +" "+ dir_path+"\\delta\\"+row
+		command="echo y | copy \""+dir_path+"\\"+row +"\" \""+ dir_path+"\\delta\\"+row+"\""
+		print(command)
 		os.system(command)
