@@ -14,13 +14,7 @@ agent any
 
 
 stages{
-	withEnv(["HOME=${env.WORKSPACE}"]) {	
 	
-	    withCredentials([file(credentialsId: SERVER_KEY_CREDENTIALS_ID, variable: 'server_key_file')]) {
-		// -------------------------------------------------------------------------
-		// Authenticate to Salesforce using the server key.
-		// -------------------------------------------------------------------------
-
 
 	stage ('fetch data for deltaDeploy'){
 	
@@ -38,21 +32,26 @@ stages{
 	
 	
 	stage('Authorize to Salesforce') {
+	withEnv(["HOME=${env.WORKSPACE}"]) {	
+	
+	    withCredentials([file(credentialsId: SERVER_KEY_CREDENTIALS_ID, variable: 'server_key_file')]) {
+		// -------------------------------------------------------------------------
+		// Authenticate to Salesforce using the server key.
+		// -------------------------------------------------------------------------
+
 			rc = command "${toolbelt}/sfdx force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --jwtkeyfile ${server_key_file} --username ${SF_USERNAME} --setalias vscodeOrg"
 		    if (rc != 0) {
 			error 'Salesforce org authorization failed.'
 		    }
 		}
-		
+		}
+		}
 		stage('Deploy and Run Tests') {
 			rc = command "${toolbelt}/sfdx force:mdapi:deploy -d delta/force-app/main/default -w 30"
 		    if (rc != 0) {
 			error 'Salesforce deploy and test run failed.'
 		    }
 		}
-
-	}
-}
 }
 }
 def command(script) {
