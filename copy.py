@@ -16,9 +16,10 @@ import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
 #print(dir_path)
 for row in listMkdir:
-	os.system("mkdir delta\\"+row)
+	if("force-app" in row):
+		os.system("mkdir delta\\"+row)
 for row in listUpdated:
 	row=row.rstrip()
-	command="echo y | copy "+dir_path+"\\"+row +" "+ dir_path+"\\delta\\"+row
-	print(command)
-	os.system(command)
+	if("force-app" in row):
+		command="echo y | copy "+dir_path+"\\"+row +" "+ dir_path+"\\delta\\"+row
+		os.system(command)
