@@ -1,7 +1,3 @@
-
-pipeline{
-agent any
-
 	def SF_CONSUMER_KEY=env.SF_CONSUMER_KEY
     def SF_USERNAME=env.SF_USERNAME
     def SERVER_KEY_CREDENTIALS_ID=env.SERVER_KEY_CREDENTIALS_ID
@@ -11,6 +7,12 @@ agent any
     def toolbelt = tool 'toolbelt'
 	println SF_CONSUMER_KEY
 	println SERVER_KEY_CREDENTIALS_ID
+
+
+pipeline{
+agent any
+
+
 stages{
 	withEnv(["HOME=${env.WORKSPACE}"]) {	
 	
