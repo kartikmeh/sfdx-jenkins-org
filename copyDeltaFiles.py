@@ -23,6 +23,13 @@ for row in listMkdir:
 for row in listUpdated:
 	row=row.rstrip()
 	if("force-app" in row):
-		command="echo y | copy \""+dir_path+"\\"+row +"\" \""+ dir_path+"\\delta\\"+row+"\""
-		print(command)
-		os.system(command)
+		command="echo y | copy \""+dir_path+"\\"+row +"\" \""
+		result=os.popen(command).read()
+		#result=os.system(command)
+		#print("**********"+str(result)+"***************")
+		if("The system cannot find the file specified" in result):
+			index=row.rindex("\\")
+			path=row[0:index]
+			os.system("mkdir "+ dir_path+"\\deltaDestruction\\"+path)
+			os.system("echo file > " +dir_path+"\\deltaDestruction\\"+row)
+			
