@@ -3,33 +3,23 @@ file=io.open("list.txt", "r", encoding = "utf-16")
 list = file.readlines()
 print(list)
 listUpdated=[]
-listMkdir=[]
 for row in list:
 	row = row.replace("/", "\\")
 	listUpdated.append(str(row))
-	try:
-		index=row.rindex("\\")
-		row=row[0:index]
-		listMkdir.append(row)
-	except:
-		print("substring not found")
-print(listUpdated)
 import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
-#print(dir_path)
-for row in listMkdir:
-	if("force-app" in row):
-		os.system("mkdir delta\\"+row)
 for row in listUpdated:
 	row=row.rstrip()
 	if("force-app" in row):
-		command="echo y | copy \""+dir_path+"\\"+row +"\" \""
+		index=row.rindex("\\")
+		path=row[0:index]
+		if os.path.isfile(row):
+			os.system("mkdir "+ dir_path+"\\delta\\"+path)
+		command="echo y | copy \""+dir_path+"\\"+row +"\" \""+ dir_path+"\\delta\\"+row+"\""
+		print(command)
 		result=os.popen(command).read()
-		#result=os.system(command)
-		#print("**********"+str(result)+"***************")
 		if("The system cannot find the file specified" in result):
-			index=row.rindex("\\")
-			path=row[0:index]
+			os.system("copy "+dir_path+"\\package.xml "+ dir_path+"\\deltaDestruction\\force-app\\main\\default\\")
 			os.system("mkdir "+ dir_path+"\\deltaDestruction\\"+path)
 			os.system("echo file > " +dir_path+"\\deltaDestruction\\"+row)
 			
