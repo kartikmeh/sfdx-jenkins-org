@@ -1,5 +1,5 @@
 import groovy.json.JsonSlurperClassic
-
+import groovy.io.FileType
 // #### MAIN ####
 def (configFile, srcDirName, packageFileName) = parseArgs(args)
 def packageTemplate = '''
@@ -22,7 +22,27 @@ srcDir.eachDir() { dir ->
 		println " * Found ${dir.name}: adding ${nodeConfig.xmlTag}"
 		def types = typesNode(xmlParser)
 		if (nodeConfig.acceptsAsterisk) {
-			types.append membersNode(xmlParser, "*")
+			println(dir.name)
+					
+			def list = []
+
+			def directory = new File("C:\\Users\\kartik\\Desktop\\Salesforce\\Kartik\\sfdx-jenkins-org\\deltaDestruction")
+			directory.eachFileRecurse (FileType.FILES) { file ->
+			list << file
+			}
+			String path
+			String fileWithExtention
+			String fileWithOutExtention
+			list.each {
+			path=it.path.toString()
+			fileWithExtention= path.substring(path.lastIndexOf("\\")+1)
+			fileWithOutExtention=fileWithExtention.substring(0,fileWithExtention.lastIndexOf("."))
+			println fileWithOutExtention
+			types.append membersNode(xmlParser, fileWithOutExtention)
+			}
+			
+			
+			
 		} else {
 			if (nodeConfig.extension) {
 				addMembers(xmlParser, types, dir, nodeConfig.extension)

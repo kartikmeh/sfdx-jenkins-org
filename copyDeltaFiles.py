@@ -20,7 +20,7 @@ for row in listUpdated:
 		print(command)
 		result=os.popen(command).read()
 		if("The system cannot find the file specified" in result):
-			os.system("copy "+dir_path+"\\package.xml "+ dir_path+"\\deltaDestruction\\force-app\\main\\default\\")
+			os.system("copy "+dir_path+"\\package.xml "+ dir_path+"\\deltaDestruction\\force-app\\main\\default\\manifest\\")
 			fileName=row[index+1:]
 			if("meta.xml" not in fileName):
 				os.system("mkdir "+ dir_path+"\\deltaDestruction\\"+path)
