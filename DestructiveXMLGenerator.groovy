@@ -23,10 +23,10 @@ srcDir.eachDir() { dir ->
 		def types = typesNode(xmlParser)
 		if (nodeConfig.acceptsAsterisk) {
 			println(dir.name)
-					
+			String loc=dir.toString()
 			def list = []
-
-			def directory = new File("C:\\Users\\kartik\\Desktop\\Salesforce\\Kartik\\sfdx-jenkins-org\\deltaDestruction")
+			println dir
+			def directory = new File("C:\\Users\\kartik\\Desktop\\Salesforce\\Kartik\\sfdx-jenkins-org\\"+loc)
 			directory.eachFileRecurse (FileType.FILES) { file ->
 			list << file
 			}
