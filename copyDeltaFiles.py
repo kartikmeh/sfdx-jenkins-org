@@ -16,10 +16,13 @@ for row in listUpdated:
 		if os.path.isfile(row):
 			os.system("mkdir "+ dir_path+"\\delta\\"+path)
 		command="echo y | copy \""+dir_path+"\\"+row +"\" \""+ dir_path+"\\delta\\"+row+"\""
+		os.system("echo y | copy \""+dir_path+"\\"+row +"-meta.xml\" \""+ dir_path+"\\delta\\"+row+"-meta.xml\"")
 		print(command)
 		result=os.popen(command).read()
 		if("The system cannot find the file specified" in result):
 			os.system("copy "+dir_path+"\\package.xml "+ dir_path+"\\deltaDestruction\\force-app\\main\\default\\")
-			os.system("mkdir "+ dir_path+"\\deltaDestruction\\"+path)
-			os.system("echo file > " +dir_path+"\\deltaDestruction\\"+row)
+			fileName=row[index+1:]
+			if("meta.xml" not in fileName):
+				os.system("mkdir "+ dir_path+"\\deltaDestruction\\"+path)
+				os.system("echo file > " +dir_path+"\\deltaDestruction\\"+row)
 			
